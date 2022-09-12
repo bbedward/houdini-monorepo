@@ -1,0 +1,120 @@
+input ChangePasswordInput {
+  newPassword: String!
+}
+
+type GetUserResponse {
+  banAddress: String
+  canRequestWork: Boolean!
+  email: String!
+  emailVerified: Boolean!
+  serviceName: String
+  serviceWebsite: String
+  type: UserType!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  banAddress: String
+  email: String!
+  emailVerified: Boolean!
+  serviceName: String
+  serviceWebsite: String
+  token: String!
+  type: UserType!
+}
+
+type Mutation {
+  changePassword(input: ChangePasswordInput!): Boolean!
+  createUser(input: UserInput!): User!
+  generateOrGetServiceToken: String!
+  login(input: LoginInput!): LoginResponse!
+  refreshToken(input: RefreshTokenInput!): String!
+  resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
+  resetPassword(input: ResetPasswordInput!): Boolean!
+  sendConfirmationEmail: Boolean!
+  workGenerate(input: WorkGenerateInput!): String!
+}
+
+type Query {
+  getUser: GetUserResponse!
+  verifyEmail(input: VerifyEmailInput!): Boolean!
+  verifyService(input: VerifyServiceInput!): Boolean!
+}
+
+input RefreshTokenInput {
+  token: String!
+}
+
+input ResendConfirmationEmailInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  email: String!
+}
+
+type Stats {
+  connectedWorkers: Int!
+  registeredServiceCount: Int!
+  services: [StatsServiceType]!
+  top10: [StatsUserType]!
+  totalPaidBanano: String!
+}
+
+type StatsServiceType {
+  name: String!
+  requests: Int!
+  website: String!
+}
+
+type StatsUserType {
+  banAddress: String!
+  totalPaidBanano: String!
+}
+
+type Subscription {
+  stats: Stats!
+}
+
+type User {
+  banAddress: String
+  createdAt: String!
+  email: String!
+  id: ID!
+  type: UserType!
+  updatedAt: String!
+}
+
+input UserInput {
+  banAddress: String
+  email: String!
+  password: String!
+  serviceName: String
+  serviceWebsite: String
+  type: UserType!
+}
+
+enum UserType {
+  PROVIDER
+  REQUESTER
+}
+
+input VerifyEmailInput {
+  email: String!
+  token: String!
+}
+
+input VerifyServiceInput {
+  email: String!
+  token: String!
+}
+
+input WorkGenerateInput {
+  blockAward: Boolean
+  difficultyMultiplier: Int!
+  hash: String!
+}
